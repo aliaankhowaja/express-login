@@ -1,7 +1,20 @@
 const express = require('express');
 const router = express.Router();
 
-
+// login route with session
+router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    
+    // check if user exists in database
+    const user = await DB.getDB().collection('users').findOne({ username, password });
+    if (user) {
+        // set session
+        req.session.user = user;
+        res.json({ message: 'Login successful' });
+    } else {
+        res.status(401).json({ message: 'Invalid username or password' });
+    }
+});
 
 
 module.exports = router;
