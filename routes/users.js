@@ -16,5 +16,13 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// dashboard protected route
+router.get('/dashboard', (req, res) => {
+    if(req.session.user) {
+        res.json({ message: `Welcome to your dashboard, ${req.session.user.username}!` });
+    } else {
+        res.status(401).json({ message: 'Unauthorized' });
+    }
+});
 
 module.exports = router;
