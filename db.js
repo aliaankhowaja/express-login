@@ -9,14 +9,18 @@ class MongoDB {
     async getDB() {
         if (this._db) return this._db;
 
-        if (!uri) uri = 'mongodb://localhost:27017';
+        const uri = 'mongodb://127.0.0.1:27017/express-login';
 
-        const client = await MongoClient.connect(uri, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        const client = new MongoClient(uri);
+        try {         
+            await client.connect();
+            console.log('Connected to MongoDB');
+        } catch (err) {
+            console.error('Failed to connect to MongoDB', err);
+            throw err;
+        }
         this._client = client;
-        this._db = client.db(dbName);
+        this._db = client.db('express-login');
         return this._db;
     }
 

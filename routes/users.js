@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
-
+const DB = require('../db');
+const User = require('../user');
 // login route with session
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     
     // check if user exists in database
-    const user = await DB.getDB().collection('users').findOne({ username, password });
+    const conn = await DB.getDB();
+    const user = await conn.collection('users').findOne({ username, password });
     if (user) {
         // set session
         req.session.user = user;
@@ -40,7 +42,8 @@ router.post('/register', async (req, res) => {
     const { username, password } = req.body;
     
     // check if user already exists
-    const existingUser = await DB.getDB().collection('users').findOne({ username });
+    const conn = await DB.getDB();
+    const existingUser = await conn.collection('users').findOne({ username });
     if (existingUser) {
         return res.status(400).json({ message: 'Username already exists' });
     }

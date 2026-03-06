@@ -1,10 +1,17 @@
 const userRoute = require('./routes/users.js');
-const commentRoute = require('./routes/comments.js');
 
 const express = require('express');
+const session = require('express-session');
 
 const app = express();
-const PORT = 3000;
+const PORT = 8000;
+
+app.use(express.json());
+app.use(session({
+    secret: 'secret',
+    resave: false,
+    cookie: { secure: false }
+}));
 
 app.use("/user", userRoute);
 

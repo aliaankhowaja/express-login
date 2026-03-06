@@ -6,11 +6,13 @@ class User {
         this.password = password;
     }
 
-    register() {
-        const connection = DB.getDB();
+    async register() {
+        const connection = await DB.getDB();
         return connection.collection('users').insertOne({
             username: this.username,
             password: this.password,
         });
     }
 }
+
+module.exports = User;

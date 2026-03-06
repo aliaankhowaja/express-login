@@ -8,6 +8,7 @@
   "main": "index.js",
   "dependencies": {
     "express": "5.2.1",
+    "express-session": "^1.19.0",
     "mongoose": "^9.2.4"
   },
   "scripts": {
