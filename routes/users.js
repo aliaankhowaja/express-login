@@ -35,4 +35,20 @@ router.post('/logout', (req, res) => {
     });
 });
 
+// register route
+router.post('/register', async (req, res) => {
+    const { username, password } = req.body;
+    
+    // check if user already exists
+    const existingUser = await DB.getDB().collection('users').findOne({ username });
+    if (existingUser) {
+        return res.status(400).json({ message: 'Username already exists' });
+    }
+
+    // create new user
+    const newUser = new User(username, password);
+    await newUser.register();
+    res.json({ message: 'Registration successful' });
+});
+
 module.exports = router;
